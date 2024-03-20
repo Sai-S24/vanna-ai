@@ -9,6 +9,7 @@ import { useRoot } from "@/context/ContextProvider";
 import ChatButtons from "./ChatButtons";
 import useChatScroll from "./ChatScroll";
 import CodeContainer from "./CodeContainer";
+import PlotlyComponent from "./Plotly";
 
 type MessageHistoryProps = {
   runSQL: (sql: string) => Promise<RUNResponse>;
@@ -85,6 +86,13 @@ const MessageHistory = (props: MessageHistoryProps) => {
       setCurrSQL(value);
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const plotlyfig = {
+      fig: '{"data":[{"x":["Barclays Execution Services Limited","IQVIA","Takeda Pharmaceuticals International AG","Bubba Gump","Enel Global Services S.r.l."],"y":[42,33,30,30,29],"type":"bar"}],"layout":{"title":{"text":"Top 5 Accounts with Highest Number of Escalations"}}}',
+      id: "f9637185-3db2-4a79-acc7-ea7af25b2556",
+      type: "plotly_figure",
+    };
+
     const mode = modes[ix] || MODES.run;
 
     if (mode === MODES.edit) {
@@ -100,7 +108,12 @@ const MessageHistory = (props: MessageHistoryProps) => {
       if (Array.isArray(data) && data.length === 0) {
         return <p className="font-bold text-xs">Relevant data not found!</p>;
       } else {
-        return <Table data={data} />;
+        return (
+          <>
+            <Table data={data} />
+            <PlotlyComponent data={plotlyfig} />
+          </>
+        );
       }
     } else if (val.type === MESSAGE_TYPES.sql) {
       return <CodeContainer language="sql">{val.ai}</CodeContainer>;
@@ -117,7 +130,7 @@ const MessageHistory = (props: MessageHistoryProps) => {
       {messageHistory?.map((val, ix) => (
         <div key={val?.messageId}>
           {val?.ai && (
-            <div className="flex flex-col items-start justify-center">
+            <div className="flex flex-row items-start justify-space-between">
               <ChatBubble
                 title="Vanna"
                 logo={"/assets/vanna_circle.png"}

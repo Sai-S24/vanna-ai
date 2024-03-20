@@ -15,6 +15,17 @@ const Homescreen = (props: HomescreenProps) => {
 
   const { handleChangeMessageHistory } = useRoot();
 
+  const generateSQL1 = async (question: string) => {
+    // Mock SQL response
+    const mockSQLResponse = {
+      id: "89559da1-7f58-4cb2-bcd5-22b45bfbf957",
+      text: "SELECT DATE_PART('day', DATE_OF_SENTIMENT_DETECTED) AS day, COUNT(*) as apology_cases\nFROM SENTIMENTS\nWHERE SENTIMENTS = 'Apology'\nGROUP BY day\nORDER BY day.",
+      type: "sql",
+    };
+
+    return mockSQLResponse;
+  };
+
   const handleSelectQuestion = async (value: string) => {
     try {
       let newMessage: TMessage = {
@@ -25,7 +36,7 @@ const Homescreen = (props: HomescreenProps) => {
       };
       handleChangeMessageHistory(newMessage);
 
-      let SQL = await generateSQL(value);
+      let SQL = await generateSQL1(value);
 
       const { text } = SQL;
       newMessage = {
@@ -66,6 +77,7 @@ const Homescreen = (props: HomescreenProps) => {
               >
                 {ques}
               </button>
+
             );
           })}
         {loading && <div>Loading....</div>}

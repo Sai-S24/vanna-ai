@@ -9,6 +9,7 @@ const MESSAGE_TYPES = {
   df: "df",
   error: "error",
   ai: "ai",
+  plotly:"plotly",
 };
 
 export { MODES, MESSAGE_TYPES };

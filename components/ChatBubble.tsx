@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import Avatar from "./Avatar";
+import { BiEditAlt } from "react-icons/bi";
 
 type ChatBubbleProps = {
   title: string;
